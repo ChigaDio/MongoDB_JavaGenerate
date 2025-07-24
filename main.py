@@ -39,30 +39,184 @@ set_operators = {
 #hash unique ascending
 
 # コレクション情報（補完）
-collection_info = {
-    "users": {
+#collection_info = {
+#    "users": {
+#        "column_list": [
+#            {"variable_type": "String", "variable_name": "name", "variable_explanation": "ユーザー名", "index_type": "hash", "none": False},
+#            {"variable_type": "String", "variable_name": "email", "variable_explanation": "メールアドレス", "index_type": "none", "is_array": False},
+#            {"variable_type": "int", "variable_name": "id", "variable_explanation": "ユーザーID", "index_type": "none", "is_array": False},
+#            {"variable_type": "double", "variable_name": "balance", "variable_explanation": "残高", "index_type": "none", "is_array": False},
+#            {"variable_type": "String", "variable_name": "hobbies", "variable_explanation": "趣味の配列", "index_type": "none", "is_array": True},  # 文字列配列
+#            {"variable_type": "double", "variable_name": "ratings", "variable_explanation": "評価の配列", "index_type": "none", "is_array": True}  # 浮動小数点配列
+#        ],
+#        "queries": [
+#            #{"query": "UPDATE users SET hobbies = arg1 WHERE id = arg2;", "method_name": "setHobbiesById"},
+#            #{"query": "UPDATE users SET hobbies = hobbies + arg1 WHERE id = arg2 AND hobbies ALL arg3;", "method_name": "removeHobbyById"},
+#            #{"query": "SELECT hobbies FROM users WHERE id = arg1 AND hobbies > 'a';", "method_name": "findHobbiesByIdFiltered"},
+#            #{"query": "SELECT hobbies FROM users WHERE id = arg1 AND hobbies = ANY(arg2);", "method_name": "findHobbiesByIdFilteredTest"},
+#            {"query": "INSERT INTO users (id, hobbies) VALUES (arg1, arg2);", "method_name": "insertUserWithHobbies"},
+#            #{"query": "DELETE FROM users WHERE id = arg1 AND hobbies = arg2;", "method_name": "deleteUserByIdAndHobby"},
+#            #{"query": "UPDATE users SET ratings = arg1 WHERE id = arg2 AND ratings >= arg3? AND ratings <= arg4?;", "method_name": "setRatingsById"},
+#            #{"query": "UPDATE users SET ratings = ratings - arg2 WHERE id = arg1;", "method_name": "removeRatingById"},
+#            #{"query": "SELECT ratings FROM users WHERE id = arg1 AND ratings > 5.0;", "method_name": "findRatingsByIdFiltered"},
+#            #{"query": "SELECT ratings FROM users WHERE id = arg1 AND ratings > arg2;", "method_name": "findRatingsByIdFilteredTest"},
+#            #{"query": "INSERT INTO users (id, ratings) VALUES (arg1, arg2);", "method_name": "insertUserWithRatings"},
+#            #{"query": "DELETE FROM users WHERE id = arg1 AND ratings = arg2;", "method_name": "deleteUserByIdAndRating"}
+#        ]
+#    }
+#}
+
+
+collection_info_money_user = {
+    "user_game_player": {
         "column_list": [
-            {"variable_type": "String", "variable_name": "name", "variable_explanation": "ユーザー名", "index_type": "hash", "none": False},
-            {"variable_type": "String", "variable_name": "email", "variable_explanation": "メールアドレス", "index_type": "none", "is_array": False},
-            {"variable_type": "int", "variable_name": "id", "variable_explanation": "ユーザーID", "index_type": "none", "is_array": False},
+            {"variable_type": "String", "variable_name": "player_id", "variable_explanation": "プレイヤーIDID", "index_type": "unique", "is_array": False},
+            {"variable_type": "String", "variable_name": "player_name", "variable_explanation": "プレイヤー名", "index_type": "none", "is_array": False},
             {"variable_type": "double", "variable_name": "balance", "variable_explanation": "残高", "index_type": "none", "is_array": False},
-            {"variable_type": "String", "variable_name": "hobbies", "variable_explanation": "趣味の配列", "index_type": "none", "is_array": True},  # 文字列配列
-            {"variable_type": "double", "variable_name": "ratings", "variable_explanation": "評価の配列", "index_type": "none", "is_array": True}  # 浮動小数点配列
+            {"variable_type": "int", "variable_name": "job_id", "variable_explanation": "職業ID", "index_type": "none", "is_array": False},
         ],
         "queries": [
-            #{"query": "UPDATE users SET hobbies = arg1 WHERE id = arg2;", "method_name": "setHobbiesById"},
-            #{"query": "UPDATE users SET hobbies = hobbies + arg1 WHERE id = arg2 AND hobbies ALL arg3;", "method_name": "removeHobbyById"},
-            #{"query": "SELECT hobbies FROM users WHERE id = arg1 AND hobbies > 'a';", "method_name": "findHobbiesByIdFiltered"},
-            #{"query": "SELECT hobbies FROM users WHERE id = arg1 AND hobbies = ANY(arg2);", "method_name": "findHobbiesByIdFilteredTest"},
-            {"query": "INSERT INTO users (id, hobbies) VALUES (arg1, arg2);", "method_name": "insertUserWithHobbies"},
-            #{"query": "DELETE FROM users WHERE id = arg1 AND hobbies = arg2;", "method_name": "deleteUserByIdAndHobby"},
-            #{"query": "UPDATE users SET ratings = arg1 WHERE id = arg2 AND ratings >= arg3? AND ratings <= arg4?;", "method_name": "setRatingsById"},
-            #{"query": "UPDATE users SET ratings = ratings - arg2 WHERE id = arg1;", "method_name": "removeRatingById"},
-            #{"query": "SELECT ratings FROM users WHERE id = arg1 AND ratings > 5.0;", "method_name": "findRatingsByIdFiltered"},
-            #{"query": "SELECT ratings FROM users WHERE id = arg1 AND ratings > arg2;", "method_name": "findRatingsByIdFilteredTest"},
-            #{"query": "INSERT INTO users (id, ratings) VALUES (arg1, arg2);", "method_name": "insertUserWithRatings"},
-            #{"query": "DELETE FROM users WHERE id = arg1 AND ratings = arg2;", "method_name": "deleteUserByIdAndRating"}
+            {"query": "SELECT * FROM user_game_player WHERE player_id = arg1 AND", "method_name": "findPlayerGameData"},
+            {"query": "UPDATE user_game_player SET balance = balance + arg1? WHERE player_id = arg2 AND", "method_name": "addBalance"},
+            {"query": "UPDATE user_game_player SET job_id = arg1 WHERE player_id = arg2 AND", "method_name": "changeJobID"},
         ]
+    }
+}
+
+collection_info_job_type= {
+    "job_type": {
+        "column_list": [
+            {"variable_type": "int", "variable_name": "job_id", "variable_explanation": "職業ID", "index_type": "unique", "is_array": False},
+            {"variable_type": "double", "variable_name": "sell_ratio", "variable_explanation": "売買倍率", "index_type": "none", "is_array": False},
+            {"variable_type": "String", "variable_name": "job_name", "variable_explanation": "職業名", "index_type": "none", "is_array": False},
+        ],
+        "queries": [
+            {"query": "SELECT * FROM job_type", "method_name": "findAllJobType"},
+        ]
+    }
+}
+
+collection_info_zone_type= {
+    "job_type": {
+        "column_list": [
+            {"variable_type": "int", "variable_name": "zone_id", "variable_explanation": "ゾーンID", "index_type": "unique", "is_array": False},
+            {"variable_type": "String", "variable_name": "zone_name", "variable_explanation": "ゾーン名", "index_type": "none", "is_array": False},
+            {"variable_type": "Vector2", "variable_name": "start_pos", "variable_explanation": "始点", "index_type": "none", "is_array": False},
+            {"variable_type": "Vector2", "variable_name": "end_pos", "variable_explanation": "終点", "index_type": "none", "is_array": False},
+            {"variable_type": "int", "variable_name": "chunk_list", "variable_explanation": "チャンクリスト", "index_type": "none", "is_array": True},
+        ],
+        "queries": [
+            {"type": "SELECT",
+             "where" : 
+                 [
+                     {"comparison" : "zone_name"}
+                 ],
+            "order" :
+                {
+                    "sort" : 
+                        [
+                            {"type" :  "asc","comparison" : "zone_id"},
+                        ],
+                    "limit" : 1,
+                }
+                ,
+                 
+            "method_name": "ZoneName"
+            },
+            {"type": "SELECT",
+             "where" : 
+                 [
+                     {"comparison" : "start_pos"}
+                 ],
+                 
+            "method_name": "StartPos"
+            },
+            {"type": "SELECT",
+             "where" : 
+                 [
+                     {"comparison" : "start_pos.x"}
+                 ],
+                 
+            "method_name": "StartPosX"
+            },
+                
+            {"type": "SELECT",
+             "where" : 
+                 [
+                     {"comparison" : "start_pos"},
+                     {"comparison" : "end_pos"},
+                 ],
+                 
+            "method_name": "StartEndPos"
+            },
+                        
+            {"type": "UPDATE",
+             "set" :
+                 [
+                     {"renewal" : "chunk_list","details_type":"Add"}
+                 ],
+             "where" : 
+                 [
+                     {"comparison" : "zone_id"}
+                 ]
+                 ,"method_name": "AddChunkList"
+                 },
+            {"type": "UPDATE",
+             "set" :
+                 [
+                     {"renewal" : "chunk_list","details_type":"Delete"}
+                 ],
+             "where" : 
+                 [
+                     {"comparison" : "zone_id"}
+                 ]
+                 ,"method_name": "DeleteChunkList"
+                 },
+            
+            
+            {"type": "UPDATE",
+             "set" :
+                 [
+                     {"renewal" : "zone_name"}
+                 ],
+             "where" : 
+                 [
+                     {"comparison" : "zone_id"}
+                 ]
+                 ,"method_name": "ZoneName"
+                 },
+            
+            {"type": "UPDATE",
+             "set" :
+                 [
+                     {"renewal" : "start_pos"},
+                     {"renewal" : "end_pos"}
+                 ],
+             "where" : 
+                 [
+                     {"comparison" : "zone_id"}
+                 ]
+                 ,"method_name": "StartEndPos"
+            },
+            
+            {"type": "DELETE",
+             "where" : 
+                 [
+                     {"comparison" : "zone_id"}
+                 ]
+                 ,"method_name": "findZoneID"
+            },
+
+        ],
+        "customVariables":[
+            {"Vector2":
+                [
+                    {"variable_type": "double", "variable_name": "x", "variable_explanation": "x", "index_type": "none", "is_array": False},
+                    {"variable_type": "double", "variable_name": "y", "variable_explanation": "y", "index_type": "none", "is_array": False},
+                ]
+            }
+            
+        ],
     }
 }
 
@@ -387,12 +541,13 @@ def generate_filter_from_user_collection_data(collection_info, prefix="update", 
 def generate_bulk_operations(collection_info):
     java_code = []
     collection = next(iter(collection_info))
+    class_name = snake_to_pascal(collection.capitalize())
     java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
-    java_code.append(f'public static boolean bulkInsert{collection.capitalize()}(MongoDatabase db, List<{collection.capitalize()}CollectionData> dataList) {{')
+    java_code.append(f'public static boolean bulkInsert{class_name}(MongoDatabase db, List<{class_name}CollectionData> dataList) {{')
     java_code.append('    try {')
     java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
     java_code.append('        List<Document> documents = new ArrayList<>();')
-    java_code.append(f'        for ({collection.capitalize()}CollectionData data : dataList)' + '{')
+    java_code.append(f'        for ({class_name}CollectionData data : dataList)' + '{')
     java_code.append('            documents.add(data.toDocument());')
     java_code.append('        }')
     java_code.append('        collection.insertMany(documents);')
@@ -409,11 +564,11 @@ def generate_bulk_operations(collection_info):
     
 
     java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
-    java_code.append(f'public static boolean bulkUpdate{collection.capitalize()}(MongoDatabase db, List<{collection.capitalize()}CollectionData> dataList) {{')
+    java_code.append(f'public static boolean bulkUpdate{class_name}(MongoDatabase db, List<{class_name}CollectionData> dataList) {{')
     java_code.append('    try {')
     java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
     java_code.append('        List<WriteModel<Document>> updates = new ArrayList<>();')
-    java_code.append(f'        for ({collection.capitalize()}CollectionData data : dataList)' + '{')
+    java_code.append(f'        for ({class_name}CollectionData data : dataList)' + '{')
     java_code.append('            List<Bson> filters = new ArrayList<>();')
     for col in collection_info[collection]["column_list"]:
         field = col["variable_name"]
@@ -452,6 +607,7 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
     table_match = re.search(r'\bFROM\s+(\w+)|INTO\s+(\w+)', sql, re.IGNORECASE)
     collection = table_match.group(1) or table_match.group(2) if table_match else next(iter(collection_info))
     args = sorted(set(re.findall(r'arg\d+', sql)), key=lambda x: int(x[3:]))
+    class_name = snake_to_pascal(collection.capitalize())
     # 引数の型をcollection_infoから正確に取得
     fields = re.search(r'\((.*?)\)\s*VALUES\s*\((.*?)\)', sql, re.IGNORECASE)
     if fields:
@@ -469,10 +625,10 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
         if fields:
             field_list = [f.strip() for f in fields.group(1).split(',')]
             args = [a.strip() for a in fields.group(2).split(',')]
-            java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{arg_params}) {{')
+            java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db, {"ClientSession session" if is_transaction else ""}{"," if arg_params != "" else ""}{arg_params}) {{')
             java_code.append('    try {')
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
-            java_code.append(f'        {collection.capitalize()}CollectionData data = new {collection.capitalize()}CollectionData();')
+            java_code.append(f'        {class_name}CollectionData data = new {class_name}CollectionData();')
             for field, arg in zip(field_list, args):
                 java_code.append(f'        data.set{field.capitalize()}({arg});')
             java_code.append(f'        collection.insertOne({"session," if is_transaction else ""}data.toDocument());')
@@ -490,7 +646,7 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
     elif operation == "update":
         set_clause = re.search(r'SET\s+(.*?)\s*WHERE', sql, re.IGNORECASE)
         where_clause = re.search(r'WHERE\s+(.*)', sql, re.IGNORECASE)
-        java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{arg_params}) {{')
+        java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db, {"ClientSession session" if is_transaction else ""}{"," if arg_params != "" else ""}{arg_params}) {{')
         java_code.append('    try {')
         java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
         if set_clause:
@@ -561,7 +717,7 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
 
     elif operation == "delete":
         where_clause = re.search(r'WHERE\s+(.*)', sql, re.IGNORECASE)
-        java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{arg_params}) {{')
+        java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db, {"ClientSession session" if is_transaction else ""}{"," if arg_params != "" else ""}{arg_params}) {{')
         java_code.append('    try {')
         java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
         if where_clause:
@@ -576,20 +732,50 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
         java_code.append('        return false;')
         java_code.append('    }')
         java_code.append('}')
-
+        
     elif operation == "select":
         where_clause = re.search(r'WHERE\s+(.*?)(?:\s*(?:ORDER\s+BY\s+(.*?)|LIMIT\s+\d+))?$', sql, re.IGNORECASE)
         order_by_clause = where_clause.group(2) if where_clause and where_clause.group(2) else None
         where_conditions = where_clause.group(1) if where_clause else None
         limit_match = re.search(r'LIMIT\s+(\d+)', sql, re.IGNORECASE)
         limit_value = int(limit_match.group(1)) if limit_match else None
-        return_type = f'{collection.capitalize()}CollectionData' if limit_value == 1 else f'List<{collection.capitalize()}CollectionData>'
+        return_type = f'{class_name}CollectionData' if limit_value == 1 else f'List<{class_name}CollectionData>'
         return_value = 'null' if limit_value == 1 else 'Collections.emptyList()'
+
 
         # LIMIT 1 の場合
         if limit_value == 1:
-            java_code.append(f'public static DataBaseResultPair<Boolean, {collection.capitalize()}CollectionData> {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{arg_params}) {{')
+            java_code.append(f'public static DataBaseResultPair<Boolean, {class_name}CollectionData> {method_name}{"Transaction" if is_transaction else ""}(MongoDatabase db{", ClientSession session" if is_transaction else ""}{"," if arg_params != "" else ""}{arg_params}) {{')
             java_code.append('    try {')
+            # キャッシュチェック
+            java_code.append('        // Check cache first')
+            java_code.append(f'        if (cache_data != null) {{')
+            if where_conditions:
+                # WHERE条件をキャッシュに適用
+                filters = parse_where_clause(where_conditions, collection_info, collection, auto_index=auto_index)
+                java_code.append(f'            List<{class_name}CollectionData> filteredCache = cache_data.stream()')
+                java_code.append(f'                .filter(data -> {convert_bson_filter_to_lambda(filters, class_name)})')
+                if order_by_clause:
+                    # ORDER BYをキャッシュに適用
+                    sort_comparator = generate_comparator(order_by_clause, class_name)
+                    java_code.append(f'                .sorted({sort_comparator})')
+                java_code.append('                .findFirst()')
+                java_code.append(f'                .map(data -> DataBaseResultPair.of(true, data))')
+                java_code.append(f'                .orElse(DataBaseResultPair.of(false, null));')
+                java_code.append('            if (filteredCache.getFirst()) return filteredCache;')
+            else:
+                # WHERE条件がない場合
+                if order_by_clause:
+                    sort_comparator = generate_comparator(order_by_clause, class_name)
+                    java_code.append(f'            List<{class_name}CollectionData> sortedCache = cache_data.stream().sorted({sort_comparator}).findFirst()')
+                    java_code.append(f'                .map(data -> DataBaseResultPair.of(true, data))')
+                    java_code.append(f'                .orElse(DataBaseResultPair.of(false, null));')
+                    java_code.append('            if (sortedCache.getFirst()) return sortedCache;')
+                else:
+                    java_code.append(f'            return !cache_data.isEmpty() ? DataBaseResultPair.of(true, cache_data.get(0)) : DataBaseResultPair.of(false, null);')
+            java_code.append('        }')
+
+            # キャッシュがない場合、MongoDBから取得
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
             if where_conditions:
                 filters = parse_where_clause(where_conditions, collection_info, collection, auto_index=auto_index)
@@ -601,13 +787,13 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}filter).sort(new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}{"," if arg_params != "" else ""}filter).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}filter).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}{"," if arg_params != "" else ""}filter).first();')
                 java_code.append('        if (doc == null) {')
                 java_code.append(f'            return DataBaseResultPair.of(false, null);')
                 java_code.append('        }')
-                java_code.append(f'        return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+                java_code.append(f'        return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             else:
                 if order_by_clause:
                     sort_fields = []
@@ -616,13 +802,13 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'        Document doc = collection.find().sort({"session," if is_transaction else ""}new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}).first();')
                 java_code.append('        if (doc == null) {')
                 java_code.append(f'            return DataBaseResultPair.of(false, null);')
                 java_code.append('        }')
-                java_code.append(f'        return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+                java_code.append(f'        return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             java_code.append('    } catch (Exception e) {')
             java_code.append(f'        return DataBaseResultPair.of(false, null);')
             java_code.append('    }')
@@ -630,8 +816,34 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
         else:
             # LIMIT なしの場合、One と Many の両方を生成
             # One バージョンの生成
-            java_code.append(f'public static DataBaseResultPair<Boolean, {collection.capitalize()}CollectionData> {method_name}{"Transaction" if is_transaction else ""}One(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{arg_params}) {{')
+            java_code.append(f'public static DataBaseResultPair<Boolean, {class_name}CollectionData> {method_name}{"Transaction" if is_transaction else ""}One(MongoDatabase db {", ClientSession session" if is_transaction else ""}{"," if arg_params != "" else ""}{arg_params}) {{')
             java_code.append('    try {')
+            # キャッシュチェック
+            java_code.append('        // Check cache first')
+            java_code.append(f'        if (cache_data != null) {{')
+            if where_conditions:
+                filters = parse_where_clause(where_conditions, collection_info, collection, auto_index=auto_index)
+                java_code.append(f'            List<{class_name}CollectionData> filteredCache = cache_data.stream()')
+                java_code.append(f'                .filter(data -> {convert_bson_filter_to_lambda(filters, class_name)})')
+                if order_by_clause:
+                    sort_comparator = generate_comparator(order_by_clause, class_name)
+                    java_code.append(f'                .sorted({sort_comparator})')
+                java_code.append('                .findFirst()')
+                java_code.append(f'                .map(data -> DataBaseResultPair.of(true, data))')
+                java_code.append(f'                .orElse(DataBaseResultPair.of(false, null));')
+                java_code.append('            if (filteredCache.getFirst()) return filteredCache;')
+            else:
+                if order_by_clause:
+                    sort_comparator = generate_comparator(order_by_clause, class_name)
+                    java_code.append(f'            List<{class_name}CollectionData> sortedCache = cache_data.stream().sorted({sort_comparator}).findFirst()')
+                    java_code.append(f'                .map(data -> DataBaseResultPair.of(true, data))')
+                    java_code.append(f'                .orElse(DataBaseResultPair.of(false, null));')
+                    java_code.append('            if (sortedCache.getFirst()) return sortedCache;')
+                else:
+                    java_code.append(f'            return !cache_data.isEmpty() ? DataBaseResultPair.of(true, cache_data.get(0)) : DataBaseResultPair.of(false, null);')
+            java_code.append('        }')
+
+            # キャッシュがない場合、MongoDBから取得
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
             if where_conditions:
                 filters = parse_where_clause(where_conditions, collection_info, collection, auto_index=auto_index)
@@ -643,13 +855,13 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}filter).sort(new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}{"," if arg_params != "" and is_transaction else ""}filter).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}filter).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}{"," if arg_params != "" and is_transaction else ""}filter).first();')
                 java_code.append('        if (doc == null) {')
                 java_code.append(f'            return DataBaseResultPair.of(false, null);')
                 java_code.append('        }')
-                java_code.append(f'        return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+                java_code.append(f'        return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             else:
                 if order_by_clause:
                     sort_fields = []
@@ -658,28 +870,45 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}).sort(new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}).first();')
+                    java_code.append(f'        Document doc = collection.find({"session" if is_transaction else ""}).first();')
                 java_code.append('        if (doc == null) {')
                 java_code.append(f'            return DataBaseResultPair.of(false, null);')
                 java_code.append('        }')
-                java_code.append(f'        return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+                java_code.append(f'        return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             java_code.append('    } catch (Exception e) {')
             java_code.append(f'        return DataBaseResultPair.of(false, null);')
             java_code.append('    }')
             java_code.append('}')
             java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
             # Many バージョンの生成
-            java_code.append(f'public static DataBaseResultPair<Boolean, List<{collection.capitalize()}CollectionData>> {method_name}{"Transaction" if is_transaction else ""}Many(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{arg_params}) {{')
+            java_code.append(f'public static DataBaseResultPair<Boolean, List<{class_name}CollectionData>> {method_name}{"Transaction" if is_transaction else ""}Many(MongoDatabase db {", ClientSession session" if is_transaction else ""}{"," if arg_params != "" else ""}{arg_params}) {{')
             java_code.append('    try {')
+            # キャッシュチェック
+            java_code.append('        // Check cache first')
+            java_code.append(f'        if (cache_data != null) {{')
+            java_code.append(f'            List<{class_name}CollectionData> resultList = cache_data.stream()')
+            if where_conditions:
+                filters = parse_where_clause(where_conditions, collection_info, collection, auto_index=auto_index)
+                java_code.append(f'                .filter(data -> {convert_bson_filter_to_lambda(filters, class_name)})')
+            if order_by_clause:
+                sort_comparator = generate_comparator(order_by_clause, class_name)
+                java_code.append(f'                .sorted({sort_comparator})')
+            if limit_value:
+                java_code.append(f'                .limit({limit_value})')
+            java_code.append('                .collect(Collectors.toList());')
+            java_code.append(f'            return resultList.isEmpty() ? DataBaseResultPair.of(false, Collections.emptyList()) : DataBaseResultPair.of(true, resultList);')
+            java_code.append('        }')
+
+            # キャッシュがない場合、MongoDBから取得
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
             if where_conditions:
                 filters = parse_where_clause(where_conditions, collection_info, collection, auto_index=auto_index)
                 java_code.append(f'        Bson filter = {filters};')
-                java_code.append(f'        FindIterable<Document> results = collection.find({"session," if is_transaction else ""}filter);')
+                java_code.append(f'        FindIterable<Document> results = collection.find({"session" if is_transaction else ""}{"," if arg_params != "" else ""}filter);')
             else:
-                java_code.append(f'        FindIterable<Document> results = collection.find({"session," if is_transaction else ""});')
+                java_code.append(f'        FindIterable<Document> results = collection.find({"session" if is_transaction else ""});')
             if order_by_clause:
                 sort_fields = []
                 for sort_item in order_by_clause.split(','):
@@ -690,9 +919,9 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
                 java_code.append(f'        results = results.sort(new Document().append({", ".join(sort_fields)}));')
             if limit_value:
                 java_code.append(f'        results = results.limit({limit_value});')
-            java_code.append(f'        List<{collection.capitalize()}CollectionData> resultList = new ArrayList<>();')
+            java_code.append(f'        List<{class_name}CollectionData> resultList = new ArrayList<>();')
             java_code.append('        for (Document doc : results) {')
-            java_code.append(f'            resultList.add(new {collection.capitalize()}CollectionData(doc));')
+            java_code.append(f'            resultList.add(new {class_name}CollectionData(doc));')
             java_code.append('        }')
             java_code.append(f'        return resultList.isEmpty() ? DataBaseResultPair.of(false, Collections.emptyList()) : DataBaseResultPair.of(true, resultList);')
             java_code.append('    } catch (Exception e) {')
@@ -701,6 +930,22 @@ def parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=Tr
             java_code.append('}')
 
     return java_code
+
+def convert_bson_filter_to_lambda(filters, class_name):
+    # 簡易的な実装例（実際はBSONフィルタの構造に応じて詳細に変換）
+    filter_str = str(filters).replace('Filters.eq', f'data.get').replace('"', '')
+    return filter_str.replace('(', '').replace(')', '')
+
+def generate_comparator(order_by_clause, class_name):
+    comparators = []
+    for sort_item in order_by_clause.split(','):
+        field, *direction = sort_item.strip().split()
+        direction = direction[0].upper() if direction else 'ASC'
+        comparator = f'Comparator.comparing({class_name}CollectionData::get{field.capitalize()})'
+        if direction == 'DESC':
+            comparator += '.reversed()'
+        comparators.append(comparator)
+    return 'Comparator.' + '.thenComparing('.join(comparators) + ')' * len(comparators)
 
 
 
@@ -716,6 +961,8 @@ def process_args(sql, arg_params):
     is_optional_list = False
     
     for param in params_list:
+        if(param == ""):
+            break
         # 引数名を抽出（最後の単語を取得）
         arg_name = param.split()[-1]
         
@@ -767,7 +1014,7 @@ def is_optional_arg_present(arg_params, optional_arg_name):
 
 # SQLを解析してMongoDB用Javaコードを生成（List<UserCollectionData>引数版）
 # SQLを解析してMongoDB用Javaコードを生成（UserCollectionData引数版）
-def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info, auto_index=True):
+def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info, auto_index=True,is_transaction = False):
     parsed = sqlparse.parse(sql)[0]
     operation = parsed.get_type().lower()
     java_code = []
@@ -780,16 +1027,16 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
     args = sorted(set(re.findall(r'arg\d+', sql)), key=lambda x: int(x[3:]))
     arg_params = ', '.join(f'{get_arg_type(collection, arg, sql, collection_info)} {arg}' for arg in args)
     new_params, optional_flag = process_args(sql, arg_params)
-    
+    class_name = snake_to_pascal(collection.capitalize())
     java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
     
     if operation == "insert":
         fields = re.search(r'\((.*?)\)\s*VALUES\s*\((.*?)\)', sql, re.IGNORECASE)
         if fields:
-            java_code.append(f'public static boolean {method_name}WithData(MongoDatabase db, {collection.capitalize()}CollectionData data) {{')
+            java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}WithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data) {{')
             java_code.append('    try {')
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
-            java_code.append('        collection.insertOne(data.toDocument());')
+            java_code.append(f'        collection.insertOne({"session," if is_transaction else ""}data.toDocument());')
             java_code.append('        return true;')
             java_code.append('    } catch (com.mongodb.MongoWriteException e) {')
             java_code.append('        if (e.getCode() == 11000) {')
@@ -805,7 +1052,7 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
         set_clause = re.search(r'SET\s+(.*?)\s*WHERE', sql, re.IGNORECASE)
         where_clause = re.search(r'WHERE\s+(.*)', sql, re.IGNORECASE)
         
-        java_code.append(f'public static boolean {method_name}WithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+        java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}WithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
         java_code.append('    try {')
         java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
         java_code.append('        List<Bson> filters = new ArrayList<>();')
@@ -907,10 +1154,10 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
             
             java_code.append(f'        Bson whereFilter = {where_filter};')
             java_code.append('        Bson combinedFilter = Filters.and(filter, whereFilter);')
-            java_code.append('        UpdateResult result = collection.updateOne(combinedFilter, updateOps);')
+            java_code.append(f'        UpdateResult result = collection.updateOne(c{"session," if is_transaction else ""}ombinedFilter, updateOps);')
             java_code.append('        return result.getMatchedCount() > 0;')
         else:
-            java_code.append('        UpdateResult result = collection.updateOne(filter, updateOps);')
+            java_code.append(f'        UpdateResult result = collection.updateOne({"session," if is_transaction else ""}filter, updateOps);')
             java_code.append('        return result.getMatchedCount() > 0;')
         
         java_code.append('    } catch (Exception e) {')
@@ -920,7 +1167,7 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
 
     elif operation == "delete":
         where_clause = re.search(r'WHERE\s+(.*)', sql, re.IGNORECASE)
-        java_code.append(f'public static boolean {method_name}WithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+        java_code.append(f'public static boolean {method_name}{"Transaction" if is_transaction else ""}WithData(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
         java_code.append('    try {')
         java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
         java_code.append('        List<Bson> filters = new ArrayList<>();')
@@ -986,10 +1233,10 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
             
             java_code.append(f'        Bson whereFilter = {where_filter};')
             java_code.append('        Bson combinedFilter = Filters.and(filter, whereFilter);')
-            java_code.append('        DeleteResult result = collection.deleteOne(combinedFilter);')
+            java_code.append(f'        DeleteResult result = collection.deleteOne({"session," if is_transaction else ""}combinedFilter);')
             java_code.append('        return result.getDeletedCount() > 0;')
         else:
-            java_code.append('        DeleteResult result = collection.deleteOne(filter);')
+            java_code.append(f'        DeleteResult result = collection.deleteOne({"session," if is_transaction else ""}filter);')
             java_code.append('        return result.getDeletedCount() > 0;')
         
         java_code.append('    } catch (Exception e) {')
@@ -1003,77 +1250,79 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
         where_conditions = where_clause.group(1) if where_clause else None
         limit_match = re.search(r'LIMIT\s+(\d+)', sql, re.IGNORECASE)
         limit_value = int(limit_match.group(1)) if limit_match else None
-        return_type = f'{collection.capitalize()}CollectionData' if limit_value == 1 else f'List<{collection.capitalize()}CollectionData>'
+        return_type = f'{class_name}CollectionData' if limit_value == 1 else f'List<{class_name}CollectionData>'
         return_value = 'null' if limit_value == 1 else 'Collections.emptyList()'
+
+
 
         # LIMIT 1 の場合
         if limit_value == 1:
-            java_code.append(f'public static DataBaseResultPair<Boolean, {collection.capitalize()}CollectionData> {method_name}WithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+            java_code.append(f'public static DataBaseResultPair<Boolean, {class_name}CollectionData> {method_name}{"Transaction" if is_transaction else ""}WithData(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
             java_code.append('    try {')
+            java_code.append('        // Check cache first')
+            java_code.append(f'        if (cache_data != null) {{')
+            java_code.append(f'            DataBaseResultPair<Boolean, {class_name}CollectionData> result = cache_data.stream()')
+            java_code.append('                .filter(item -> {')
+            java_code.append('                    boolean match = true;')
+            for col in collection_info[collection]["column_list"]:
+                if col["index_type"] != "none":
+                    field = col["variable_name"]
+                    java_code.append(f'                    if (data.is{field.capitalize()}Flag()) {{')
+                    java_code.append(f'                        match &= Objects.equals(item.get{field.capitalize()}(), data.get{field.capitalize()}());')
+                    java_code.append('                    }')
+            java_code.append('                    return match;')
+            java_code.append('                })')
+            if where_conditions:
+                where_lambda = convert_where_to_lambda(where_conditions, class_name, optional_flag, new_params)
+                java_code.append(f'                .filter(item -> {where_lambda})')
+            if order_by_clause:
+                sort_comparator = generate_comparator(order_by_clause, class_name)
+                java_code.append(f'                .sorted({sort_comparator})')
+            java_code.append('                .findFirst()')
+            java_code.append(f'                .map(item -> DataBaseResultPair.of(true, item))')
+            java_code.append(f'                .orElse(DataBaseResultPair.of(false, null));')
+            java_code.append('            if (result.isSuccess()) return result;')
+            java_code.append('        }')
+
+            # キャッシュがない場合、MongoDBから取得
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
             java_code.append('        List<Bson> filters = new ArrayList<>();')
-            
-            # UserCollectionDataからフィルターを生成
-            # UserCollectionDataからフィルターを生成
             for col in collection_info[collection]["column_list"]:
-                if(col["index_type"] != "none"):
+                if col["index_type"] != "none":
                     field = col["variable_name"]
                     java_code.append(f'            if (data.is{field.capitalize()}Flag()) {{')
                     java_code.append(f'                filters.add(Filters.eq("{field}", data.get{field.capitalize()}()));')
                     java_code.append('            }')
-            
             java_code.append('        Bson filter = filters.isEmpty() ? new Document() : Filters.and(filters);')
-            
             if where_conditions:
                 where_filters = []
-                
-                # 条件を分割
                 for condition in re.split(r'\bAND\b|\bOR\b', where_conditions, flags=re.IGNORECASE):
                     condition = condition.strip()
-                    
-                    # ALL演算子の処理
                     if ' ALL ' in condition:
                         field, value = [clean_value(x) for x in condition.split(' ALL ', 1)]
-                        # UserCollectionDataから値を取得
-                        where_filters.append(f'Filters.all("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                        where_filters.append(f'Filters.all("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                         continue
-                    
-                    # IN演算子の処理
                     if ' IN ' in condition.upper():
                         field, value = [clean_value(x) for x in condition.split(' IN ', 1)]
-                        # UserCollectionDataから値を取得
-                        where_filters.append(f'Filters.in("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                        where_filters.append(f'Filters.in("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                         continue
-                    
-                    # その他の比較演算子
                     for op in comparison_operators.keys():
                         if op in condition:
                             parts = condition.split(op, 1)
                             if len(parts) < 2:
                                 continue
-                            
                             field, value = [clean_value(x) for x in parts]
-                            # UserCollectionDataから値を取得
-                            where_filters.append(f'Filters.{comparison_operators[op]}("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                            where_filters.append(f'Filters.{comparison_operators[op]}("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                             break
-                
-                # インデックスの自動追加
                 if auto_index:
                     for col in collection_info[collection]["column_list"]:
                         if col.get("index_type", "none") in ["ascending", "descending", "hash", "unique"]:
                             field = col["variable_name"]
                             if not any(f'"{field}"' in f for f in where_filters):
                                 where_filters.append(f'Filters.exists("{field}")')
-                
-                # フィルターを結合
-                if where_filters:
-                    where_filter = f'Filters.and({", ".join(where_filters)})'
-                else:
-                    where_filter = 'new Document()'
-                
+                where_filter = f'Filters.and({", ".join(where_filters)})' if where_filters else 'new Document()'
                 java_code.append(f'        Bson whereFilter = {where_filter};')
                 java_code.append('        Bson combinedFilter = Filters.and(filter, whereFilter);')
-                
                 if order_by_clause:
                     sort_fields = []
                     for sort_item in order_by_clause.split(','):
@@ -1081,9 +1330,9 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'        Document doc = collection.find(combinedFilter).sort(new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}combinedFilter).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'        Document doc = collection.find(combinedFilter).first();')
+                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}combinedFilter).first();')
             else:
                 if order_by_clause:
                     sort_fields = []
@@ -1092,87 +1341,86 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'        Document doc = collection.find(filter).sort(new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}filter).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'        Document doc = collection.find(filter).first();')
-            
+                    java_code.append(f'        Document doc = collection.find({"session," if is_transaction else ""}filter).first();')
             java_code.append('        if (doc == null) {')
             java_code.append(f'            return DataBaseResultPair.of(false, null);')
             java_code.append('        }')
-            java_code.append(f'        return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+            java_code.append(f'        return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             java_code.append('    } catch (Exception e) {')
             java_code.append(f'        return DataBaseResultPair.of(false, null);')
-            java_code.append('    }')
+            java_code.append('}')
             java_code.append('}')
         else:
             # LIMIT なしの場合、One と Many の両方を生成
             # One バージョンの生成
-            java_code.append(f'public static DataBaseResultPair<Boolean, {collection.capitalize()}CollectionData> {method_name}OneWithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+            java_code.append(f'public static DataBaseResultPair<Boolean, {class_name}CollectionData> {method_name}{"Transaction" if is_transaction else ""}OneWithData(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
             java_code.append('    try {')
+            java_code.append('        // Check cache first')
+            java_code.append(f'        if (cache_data != null) {{')
+            java_code.append(f'            DataBaseResultPair<Boolean, {class_name}CollectionData> result = cache_data.stream()')
+            java_code.append('                .filter(item -> {')
+            java_code.append('                    boolean match = true;')
+            for col in collection_info[collection]["column_list"]:
+                if col["index_type"] != "none":
+                    field = col["variable_name"]
+                    java_code.append(f'                    if (data.is{field.capitalize()}Flag()) {{')
+                    java_code.append(f'                        match &= Objects.equals(item.get{field.capitalize()}(), data.get{field.capitalize()}());')
+                    java_code.append('                    }')
+            java_code.append('                    return match;')
+            java_code.append('                })')
+            if where_conditions:
+                where_lambda = convert_where_to_lambda(where_conditions, class_name, optional_flag, new_params)
+                java_code.append(f'                .filter(item -> {where_lambda})')
+            if order_by_clause:
+                sort_comparator = generate_comparator(order_by_clause, class_name)
+                java_code.append(f'                .sorted({sort_comparator})')
+            java_code.append('                .findFirst()')
+            java_code.append(f'                .map(item -> DataBaseResultPair.of(true, item))')
+            java_code.append(f'                .orElse(DataBaseResultPair.of(false, null));')
+            java_code.append('            if (result.isSuccess()) return result;')
+            java_code.append('        }')
+
+            # キャッシュがない場合、MongoDBから取得
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
             java_code.append('        List<Bson> filters = new ArrayList<>();')
-            
-            # UserCollectionDataからフィルターを生成
-            # UserCollectionDataからフィルターを生成
             for col in collection_info[collection]["column_list"]:
-                if(col["index_type"] != "none"):
+                if col["index_type"] != "none":
                     field = col["variable_name"]
                     java_code.append(f'            if (data.is{field.capitalize()}Flag()) {{')
                     java_code.append(f'                filters.add(Filters.eq("{field}", data.get{field.capitalize()}()));')
                     java_code.append('            }')
-            
             java_code.append('        Bson filter = filters.isEmpty() ? new Document() : Filters.and(filters);')
-            
             if where_conditions:
                 where_filters = []
-                
-                # 条件を分割
                 for condition in re.split(r'\bAND\b|\bOR\b', where_conditions, flags=re.IGNORECASE):
                     condition = condition.strip()
-                    
-                    # ALL演算子の処理
                     if ' ALL ' in condition:
                         field, value = [clean_value(x) for x in condition.split(' ALL ', 1)]
-                        # UserCollectionDataから値を取得
-                        where_filters.append(f'Filters.all("{field}",{value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                        where_filters.append(f'Filters.all("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                         continue
-                    
-                    # IN演算子の処理
                     if ' IN ' in condition.upper():
                         field, value = [clean_value(x) for x in condition.split(' IN ', 1)]
-                        # UserCollectionDataから値を取得
-                        where_filters.append(f'Filters.in("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                        where_filters.append(f'Filters.in("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                         continue
-                    
-                    # その他の比較演算子
                     for op in comparison_operators.keys():
                         if op in condition:
                             parts = condition.split(op, 1)
                             if len(parts) < 2:
                                 continue
-                            
                             field, value = [clean_value(x) for x in parts]
-                            # UserCollectionDataから値を取得
-                            where_filters.append(f'Filters.{comparison_operators[op]}("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                            where_filters.append(f'Filters.{comparison_operators[op]}("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                             break
-                
-                # インデックスの自動追加
                 if auto_index:
                     for col in collection_info[collection]["column_list"]:
                         if col.get("index_type", "none") in ["ascending", "descending", "hash", "unique"]:
                             field = col["variable_name"]
                             if not any(f'"{field}"' in f for f in where_filters):
                                 where_filters.append(f'Filters.exists("{field}")')
-                
-                # フィルターを結合
-                if where_filters:
-                    where_filter = f'Filters.and({", ".join(where_filters)})'
-                else:
-                    where_filter = 'new Document()'
-                
+                where_filter = f'Filters.and({", ".join(where_filters)})' if where_filters else 'new Document()'
                 java_code.append(f'        Bson whereFilter = {where_filter};')
                 java_code.append('        Bson combinedFilter = Filters.and(filter, whereFilter);')
-                
                 if order_by_clause:
                     sort_fields = []
                     for sort_item in order_by_clause.split(','):
@@ -1194,86 +1442,86 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
                     java_code.append(f'        Document doc = collection.find(filter).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
                     java_code.append(f'        Document doc = collection.find(filter).first();')
-            
             java_code.append('        if (doc == null) {')
             java_code.append(f'            return DataBaseResultPair.of(false, null);')
             java_code.append('        }')
-            java_code.append(f'        return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+            java_code.append(f'        return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             java_code.append('    } catch (Exception e) {')
             java_code.append(f'        return DataBaseResultPair.of(false, null);')
-            java_code.append('    }')
             java_code.append('}')
-            
+            java_code.append('}')
+
             # Many バージョンの生成
             java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
-            java_code.append(f'public static DataBaseResultPair<Boolean, List<{collection.capitalize()}CollectionData>> {method_name}ManyWithData(MongoDatabase db, {collection.capitalize()}CollectionData data) {{')
+            java_code.append(f'public static DataBaseResultPair<Boolean, List<{class_name}CollectionData>> {method_name}{"Transaction" if is_transaction else ""}ManyWithData(MongoDatabase db, {"ClientSession session," if is_transaction else ""}{class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
             java_code.append('    try {')
+            java_code.append('        // Check cache first')
+            java_code.append(f'        if (cache_data != null) {{')
+            java_code.append(f'            List<{class_name}CollectionData> resultList = cache_data.stream()')
+            java_code.append('                .filter(item -> {')
+            java_code.append('                    boolean match = true;')
+            for col in collection_info[collection]["column_list"]:
+                if col["index_type"] != "none":
+                    field = col["variable_name"]
+                    java_code.append(f'                    if (data.is{field.capitalize()}Flag()) {{')
+                    java_code.append(f'                        match &= Objects.equals(item.get{field.capitalize()}(), data.get{field.capitalize()}());')
+                    java_code.append('                    }')
+            java_code.append('                    return match;')
+            java_code.append('                })')
+            if where_conditions:
+                where_lambda = convert_where_to_lambda(where_conditions, class_name, optional_flag, new_params)
+                java_code.append(f'                .filter(item -> {where_lambda})')
+            if order_by_clause:
+                sort_comparator = generate_comparator(order_by_clause, class_name)
+                java_code.append(f'                .sorted({sort_comparator})')
+            if limit_value:
+                java_code.append(f'                .limit({limit_value})')
+            java_code.append('                .collect(Collectors.toList());')
+            java_code.append(f'            return resultList.isEmpty() ? DataBaseResultPair.of(false, Collections.emptyList()) : DataBaseResultPair.of(true, resultList);')
+            java_code.append('        }')
+
+            # キャッシュがない場合、MongoDBから取得
             java_code.append(f'        MongoCollection<Document> collection = db.getCollection("{collection}");')
             java_code.append('        List<Bson> filters = new ArrayList<>();')
-            
-            # UserCollectionDataからフィルターを生成
             for col in collection_info[collection]["column_list"]:
-                if(col["index_type"] != "none"):
+                if col["index_type"] != "none":
                     field = col["variable_name"]
                     java_code.append(f'            if (data.is{field.capitalize()}Flag()) {{')
                     java_code.append(f'                filters.add(Filters.eq("{field}", data.get{field.capitalize()}()));')
                     java_code.append('            }')
-            
             java_code.append('        Bson filter = filters.isEmpty() ? new Document() : Filters.and(filters);')
-            
             if where_conditions:
                 where_filters = []
-                
-                # 条件を分割
                 for condition in re.split(r'\bAND\b|\bOR\b', where_conditions, flags=re.IGNORECASE):
                     condition = condition.strip()
-                    
-                    # ALL演算子の処理
                     if ' ALL ' in condition:
                         field, value = [clean_value(x) for x in condition.split(' ALL ', 1)]
-                        # UserCollectionDataから値を取得
-                        where_filters.append(f'Filters.all("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                        where_filters.append(f'Filters.all("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                         continue
-                    
-                    # IN演算子の処理
                     if ' IN ' in condition.upper():
                         field, value = [clean_value(x) for x in condition.split(' IN ', 1)]
-                        # UserCollectionDataから値を取得
-                        where_filters.append(f'Filters.in("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                        where_filters.append(f'Filters.in("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                         continue
-                    
-                    # その他の比較演算子
                     for op in comparison_operators.keys():
                         if op in condition:
                             parts = condition.split(op, 1)
                             if len(parts) < 2:
                                 continue
-                            
                             field, value = [clean_value(x) for x in parts]
-                            # UserCollectionDataから値を取得
-                            where_filters.append(f'Filters.{comparison_operators[op]}("{field}", {value if optional_flag and  is_optional_arg_present(new_params,value) else  "data.get" + field.capitalize() + "()"})')
+                            where_filters.append(f'Filters.{comparison_operators[op]}("{field}", {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
                             break
-                
-                # インデックスの自動追加
                 if auto_index:
                     for col in collection_info[collection]["column_list"]:
                         if col.get("index_type", "none") in ["ascending", "descending", "hash", "unique"]:
                             field = col["variable_name"]
                             if not any(f'"{field}"' in f for f in where_filters):
                                 where_filters.append(f'Filters.exists("{field}")')
-                
-                # フィルターを結合
-                if where_filters:
-                    where_filter = f'Filters.and({", ".join(where_filters)})'
-                else:
-                    where_filter = 'new Document()'
-                
+                where_filter = f'Filters.and({", ".join(where_filters)})' if where_filters else 'new Document()'
                 java_code.append(f'        Bson whereFilter = {where_filter};')
                 java_code.append('        Bson combinedFilter = Filters.and(filter, whereFilter);')
-                java_code.append('        FindIterable<Document> results = collection.find(combinedFilter);')
+                java_code.append(f'        FindIterable<Document> results = collection.find({"session," if is_transaction else ""}combinedFilter);')
             else:
-                java_code.append('        FindIterable<Document> results = collection.find(filter);')
-            
+                java_code.append(f'        FindIterable<Document> results = collection.find({"session," if is_transaction else ""}filter);')
             if order_by_clause:
                 sort_fields = []
                 for sort_item in order_by_clause.split(','):
@@ -1282,21 +1530,54 @@ def parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info,
                     sort_value = '1' if direction == 'ASC' else '-1'
                     sort_fields.append(f'"{field}", {sort_value}')
                 java_code.append(f'        results = results.sort(new Document().append({", ".join(sort_fields)}));')
-            
             if limit_value:
                 java_code.append(f'        results = results.limit({limit_value});')
-            
-            java_code.append(f'        List<{collection.capitalize()}CollectionData> resultList = new ArrayList<>();')
+            java_code.append(f'        List<{class_name}CollectionData> resultList = new ArrayList<>();')
             java_code.append('        for (Document doc : results) {')
-            java_code.append(f'            resultList.add(new {collection.capitalize()}CollectionData(doc));')
+            java_code.append(f'            resultList.add(new {class_name}CollectionData(doc));')
             java_code.append('        }')
             java_code.append(f'        return resultList.isEmpty() ? DataBaseResultPair.of(false, Collections.emptyList()) : DataBaseResultPair.of(true, resultList);')
             java_code.append('    } catch (Exception e) {')
             java_code.append(f'        return DataBaseResultPair.of(false, Collections.emptyList());')
-            java_code.append('    }')
+            java_code.append('}')
             java_code.append('}')
 
     return java_code
+
+def convert_where_to_lambda(where_conditions, class_name, optional_flag, new_params):
+    conditions = []
+    for condition in re.split(r'\bAND\b|\bOR\b', where_conditions, flags=re.IGNORECASE):
+        condition = condition.strip()
+        if ' ALL ' in condition:
+            field, value = [clean_value(x) for x in condition.split(' ALL ', 1)]
+            conditions.append(f'item.get{field.capitalize()}().containsAll({value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
+            continue
+        if ' IN ' in condition.upper():
+            field, value = [clean_value(x) for x in condition.split(' IN ', 1)]
+            conditions.append(f'({value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"}).contains(item.get{field.capitalize()}())')
+            continue
+        for op in comparison_operators.keys():
+            if op in condition:
+                parts = condition.split(op, 1)
+                if len(parts) < 2:
+                    continue
+                field, value = [clean_value(x) for x in parts]
+                java_op = {'=': 'Objects.equals', '>': '>', '<': '<', '>=': '>=', '<=': '<=', '!=': '!Objects.equals'}[op]
+                conditions.append(f'{java_op}(item.get{field.capitalize()}(), {value if optional_flag and is_optional_arg_present(new_params, value) else "data.get" + field.capitalize() + "()"})')
+                break
+    conjunction = ' && ' if 'AND' in where_conditions.upper() else ' || '
+    return conjunction.join(conditions) if conditions else 'true'
+
+def generate_comparator(order_by_clause, class_name):
+    comparators = []
+    for sort_item in order_by_clause.split(','):
+        field, *direction = sort_item.strip().split()
+        direction = direction[0].upper() if direction else 'ASC'
+        comparator = f'Comparator.comparing({class_name}CollectionData::get{field.capitalize()})'
+        if direction == 'DESC':
+            comparator += '.reversed()'
+        comparators.append(comparator)
+    return 'Comparator.' + '.thenComparing('.join(comparators) + ')' * len(comparators)
 
 # SQLを解析してMongoDB用Javaコードを生成（List<UserCollectionData>引数版）
 def parse_sql_to_mongodb_list_user_collection_data(sql, method_name, collection_info, auto_index=True):
@@ -1843,7 +2124,8 @@ def generate_user_collection_data_class(collection_info):
     java_code.append('import java.util.List;')
     java_code.append('import java.util.ArrayList;')
     java_code.append('')
-    java_code.append(f'public class {collection.capitalize()}CollectionData {{')
+    class_name = snake_to_pascal(collection.capitalize())
+    java_code.append(f'public class {class_name}CollectionData {{')
 
     # フィールド定義
     for col in collection_info[collection]["column_list"]:
@@ -1860,7 +2142,7 @@ def generate_user_collection_data_class(collection_info):
         java_code.append(f'    private boolean {col["variable_name"]}_flag;')
 
     # デフォルトコンストラクタ
-    java_code.append(f'    public {collection.capitalize()}CollectionData() {{')
+    java_code.append(f'    public {class_name}CollectionData() {{')
     for col in collection_info[collection]["column_list"]:
         java_code.append('         @SuppressWarnings("FieldName")')
         java_code.append(f'        this.{col["variable_name"]}_flag = false;')
@@ -1875,7 +2157,7 @@ def generate_user_collection_data_class(collection_info):
     java_code.append('    }')
 
     # Documentからのコンストラクタ
-    java_code.append(f'    public {collection.capitalize()}CollectionData(Document doc) {{')
+    java_code.append(f'    public {class_name}CollectionData(Document doc) {{')
     for col in collection_info[collection]["column_list"]:
         java_type = col["variable_type"]
         java_element_type = {
@@ -2206,7 +2488,7 @@ def parse_sql_to_mongodb_single_async(sql, method_name, collection_info, auto_in
     return java_code
 
 # 非同期版: UserCollectionData引数用の関数
-def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection_info, auto_index=True):
+def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection_info, auto_index=True,is_transaction = False):
     parsed = sqlparse.parse(sql)[0]
     operation = parsed.get_type().lower()
     java_code = []
@@ -2217,17 +2499,17 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
     arg_params = ', '.join(f'{get_arg_type(collection, arg, sql, collection_info)} {arg}' for arg in args)
     new_params, optional_flag = process_args(sql, arg_params)
     
-
+    class_name = snake_to_pascal(collection.capitalize())
 
     
     java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
     
     if operation == "insert":
-        java_code.append(f'public static CompletableFuture<Boolean> {method_name}AsyncWithData(MongoDatabase db, {collection.capitalize()}CollectionData data) {{')
+        java_code.append(f'public static CompletableFuture<Boolean> {method_name}{"Transaction" if is_transaction else ""}AsyncWithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data) {{')
         java_code.append('    return CompletableFuture.supplyAsync(() -> {')
         java_code.append('        try {')
         java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
-        java_code.append('            collection.insertOne(data.toDocument());')
+        java_code.append(f'            collection.insertOne({"session," if is_transaction else ""}data.toDocument());')
         java_code.append('            return true;')
         java_code.append('        } catch (com.mongodb.MongoWriteException e) {')
         java_code.append('            if (e.getCode() == 11000) {')
@@ -2244,7 +2526,7 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
         set_clause = re.search(r'SET\s+(.*?)\s*WHERE', sql, re.IGNORECASE)
         where_clause = re.search(r'WHERE\s+(.*)', sql, re.IGNORECASE)
         
-        java_code.append(f'public static CompletableFuture<Boolean> {method_name}AsyncWithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+        java_code.append(f'public static CompletableFuture<Boolean> {method_name}{"Transaction" if is_transaction else ""}AsyncWithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
         java_code.append('    return CompletableFuture.supplyAsync(() -> {')
         java_code.append('        try {')
         java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
@@ -2341,10 +2623,10 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
             
             java_code.append(f'            Bson whereFilter = {where_filter};')
             java_code.append('            Bson combinedFilter = Filters.and(filter, whereFilter);')
-            java_code.append('            UpdateResult result = collection.updateOne(combinedFilter, updateOps);')
+            java_code.append(f'            UpdateResult result = collection.updateOne({"session," if is_transaction else ""}combinedFilter, updateOps);')
             java_code.append('            return result.getMatchedCount() > 0;')
         else:
-            java_code.append('            UpdateResult result = collection.updateOne(filter, updateOps);')
+            java_code.append(f'            UpdateResult result = collection.updateOne({"session," if is_transaction else ""}filter, updateOps);')
             java_code.append('            return result.getMatchedCount() > 0;')
         
         java_code.append('        } catch (Exception e) {')
@@ -2355,7 +2637,7 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
 
     elif operation == "delete":
         where_clause = re.search(r'WHERE\s+(.*)', sql, re.IGNORECASE)
-        java_code.append(f'public static CompletableFuture<Boolean> {method_name}AsyncWithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+        java_code.append(f'public static CompletableFuture<Boolean> {method_name}{"Transaction" if is_transaction else ""}AsyncWithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
         java_code.append('    return CompletableFuture.supplyAsync(() -> {')
         java_code.append('        try {')
         java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
@@ -2418,10 +2700,10 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
             
             java_code.append(f'            Bson whereFilter = {where_filter};')
             java_code.append('            Bson combinedFilter = Filters.and(filter, whereFilter);')
-            java_code.append('            DeleteResult result = collection.deleteOne(combinedFilter);')
+            java_code.append(f'            DeleteResult result = collection.deleteOne({"session," if is_transaction else ""}combinedFilter);')
             java_code.append('            return result.getDeletedCount() > 0;')
         else:
-            java_code.append('            DeleteResult result = collection.deleteOne(filter);')
+            java_code.append(f'            DeleteResult result = collection.deleteOne({"session," if is_transaction else ""}filter);')
             java_code.append('            return result.getDeletedCount() > 0;')
         
         java_code.append('        } catch (Exception e) {')
@@ -2436,11 +2718,11 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
         where_conditions = where_clause.group(1) if where_clause else None
         limit_match = re.search(r'LIMIT\s+(\d+)', sql, re.IGNORECASE)
         limit_value = int(limit_match.group(1)) if limit_match else None
-        return_type = f'DataBaseResultPair<Boolean, {collection.capitalize()}CollectionData>' if limit_value == 1 else f'DataBaseResultPair<Boolean, List<{collection.capitalize()}CollectionData>>'
+        return_type = f'DataBaseResultPair<Boolean, {class_name}CollectionData>' if limit_value == 1 else f'DataBaseResultPair<Boolean, List<{class_name}CollectionData>>'
         return_value = 'DataBaseResultPair.of(false, null)' if limit_value == 1 else 'DataBaseResultPair.of(false, Collections.emptyList())'
 
         if limit_value == 1:
-            java_code.append(f'public static CompletableFuture<{return_type}> {method_name}AsyncWithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+            java_code.append(f'public static CompletableFuture<{return_type}> {method_name}{"Transaction" if is_transaction else ""}AsyncWithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
             java_code.append('    return CompletableFuture.supplyAsync(() -> {')
             java_code.append('        try {')
             java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
@@ -2521,14 +2803,14 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'            Document doc = collection.find(filter).sort(new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'            Document doc = collection.find({"session," if is_transaction else ""}filter).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'            Document doc = collection.find(filter).first();')
+                    java_code.append(f'            Document doc = collection.find({"session," if is_transaction else ""}filter).first();')
             
             java_code.append('            if (doc == null) {')
             java_code.append(f'                return {return_value};')
             java_code.append('            }')
-            java_code.append(f'            return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+            java_code.append(f'            return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             java_code.append('        } catch (Exception e) {')
             java_code.append(f'            return {return_value};')
             java_code.append('        }')
@@ -2536,7 +2818,7 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
             java_code.append('}')
         else:
             # One バージョンの生成
-            java_code.append(f'public static CompletableFuture<DataBaseResultPair<Boolean, {collection.capitalize()}CollectionData>> {method_name}OneAsyncWithData(MongoDatabase db, {collection.capitalize()}CollectionData data{", " + new_params if optional_flag else ""}) {{')
+            java_code.append(f'public static CompletableFuture<DataBaseResultPair<Boolean, {class_name}CollectionData>> {method_name}{"Transaction" if is_transaction else ""}OneAsyncWithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data{", " + new_params if optional_flag else ""}) {{')
             java_code.append('    return CompletableFuture.supplyAsync(() -> {')
             java_code.append('        try {')
             java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
@@ -2617,14 +2899,14 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
                         direction = direction[0].upper() if direction else 'ASC'
                         sort_value = '1' if direction == 'ASC' else '-1'
                         sort_fields.append(f'"{field}", {sort_value}')
-                    java_code.append(f'            Document doc = collection.find(filter).sort(new Document().append({", ".join(sort_fields)})).first();')
+                    java_code.append(f'            Document doc = collection.find({"session," if is_transaction else ""}filter).sort(new Document().append({", ".join(sort_fields)})).first();')
                 else:
-                    java_code.append(f'            Document doc = collection.find(filter).first();')
+                    java_code.append(f'            Document doc = collection.find({"session," if is_transaction else ""}filter).first();')
             
             java_code.append('            if (doc == null) {')
             java_code.append(f'                return DataBaseResultPair.of(false, null);')
             java_code.append('            }')
-            java_code.append(f'            return DataBaseResultPair.of(true, new {collection.capitalize()}CollectionData(doc));')
+            java_code.append(f'            return DataBaseResultPair.of(true, new {class_name}CollectionData(doc));')
             java_code.append('        } catch (Exception e) {')
             java_code.append(f'            return DataBaseResultPair.of(false, null);')
             java_code.append('        }')
@@ -2633,7 +2915,7 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
             
             # Many バージョンの生成
             java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
-            java_code.append(f'public static CompletableFuture<DataBaseResultPair<Boolean, List<{collection.capitalize()}CollectionData>>> {method_name}ManyAsyncWithData(MongoDatabase db, {collection.capitalize()}CollectionData data) {{')
+            java_code.append(f'public static CompletableFuture<DataBaseResultPair<Boolean, List<{class_name}CollectionData>>> {method_name}{"Transaction" if is_transaction else ""}ManyAsyncWithData(MongoDatabase db,{"ClientSession session," if is_transaction else ""} {class_name}CollectionData data) {{')
             java_code.append('    return CompletableFuture.supplyAsync(() -> {')
             java_code.append('        try {')
             java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
@@ -2695,9 +2977,9 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
                 
                 java_code.append(f'            Bson whereFilter = {where_filter};')
                 java_code.append('            Bson combinedFilter = Filters.and(filter, whereFilter);')
-                java_code.append('            FindIterable<Document> results = collection.find(combinedFilter);')
+                java_code.append(f'            FindIterable<Document> results = collection.find({"session," if is_transaction else ""}combinedFilter);')
             else:
-                java_code.append('            FindIterable<Document> results = collection.find(filter);')
+                java_code.append(f'            FindIterable<Document> results = collection.find({"session," if is_transaction else ""}filter);')
             
             if order_by_clause:
                 sort_fields = []
@@ -2711,9 +2993,9 @@ def parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection
             if limit_value:
                 java_code.append(f'            results = results.limit({limit_value});')
             
-            java_code.append(f'            List<{collection.capitalize()}CollectionData> resultList = new ArrayList<>();')
+            java_code.append(f'            List<{class_name}CollectionData> resultList = new ArrayList<>();')
             java_code.append('            for (Document doc : results) {')
-            java_code.append(f'                resultList.add(new {collection.capitalize()}CollectionData(doc));')
+            java_code.append(f'                resultList.add(new {class_name}CollectionData(doc));')
             java_code.append('            }')
             java_code.append(f'            return resultList.isEmpty() ? DataBaseResultPair.of(false, Collections.emptyList()) : DataBaseResultPair.of(true, resultList);')
             java_code.append('        } catch (Exception e) {')
@@ -3259,13 +3541,14 @@ def parse_sql_to_mongodb_list_user_collection_data_async(sql, method_name, colle
 def generate_bulk_operations_async(collection_info):
     java_code = []
     collection = next(iter(collection_info))
+    class_name = snake_to_pascal(collection.capitalize())
     java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
-    java_code.append(f'public static CompletableFuture<Boolean> bulkInsert{collection.capitalize()}Async(MongoDatabase db, List<{collection.capitalize()}CollectionData> dataList) {{')
+    java_code.append(f'public static CompletableFuture<Boolean> bulkInsert{class_name}Async(MongoDatabase db, List<{class_name}CollectionData> dataList) {{')
     java_code.append('    return CompletableFuture.supplyAsync(() -> {')
     java_code.append('        try {')
     java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
     java_code.append('            List<Document> documents = new ArrayList<>();')
-    java_code.append(f'            for ({collection.capitalize()}CollectionData data : dataList) {{')
+    java_code.append(f'            for ({class_name}CollectionData data : dataList) {{')
     java_code.append('                documents.add(data.toDocument());')
     java_code.append('            }')
     java_code.append('            collection.insertMany(documents);')
@@ -3282,12 +3565,12 @@ def generate_bulk_operations_async(collection_info):
     java_code.append('}')
 
     java_code.append('@SuppressWarnings({"java:S3776", "unused"})')
-    java_code.append(f'public static CompletableFuture<Boolean> bulkUpdate{collection.capitalize()}Async(MongoDatabase db, List<{collection.capitalize()}CollectionData> dataList) {{')
+    java_code.append(f'public static CompletableFuture<Boolean> bulkUpdate{class_name}Async(MongoDatabase db, List<{class_name}CollectionData> dataList) {{')
     java_code.append('    return CompletableFuture.supplyAsync(() -> {')
     java_code.append('        try {')
     java_code.append(f'            MongoCollection<Document> collection = db.getCollection("{collection}");')
     java_code.append('            List<WriteModel<Document>> updates = new ArrayList<>();')
-    java_code.append(f'            for ({collection.capitalize()}CollectionData data : dataList) {{')
+    java_code.append(f'            for ({class_name}CollectionData data : dataList) {{')
     java_code.append('                List<Bson> filters = new ArrayList<>();')
     for col in collection_info[collection]["column_list"]:
         field = col["variable_name"]
@@ -3708,82 +3991,113 @@ def parse_sql_to_mongodb_transaction(sql, method_name, collection_info, auto_ind
     
     return java_code
 
+def snake_to_pascal(snake_str):
+    # アンダースコアで分割
+    words = snake_str.split('_')
+    # 各単語の先頭を大文字にし、結合
+    return ''.join(word.capitalize() for word in words)
+
 # writeJavaCode関数内のSQLクエリごとのコード生成部分に以下を追加
-def writeJavaCode(collection, write_path,parent_path="io.github.chigadio.javamongodbbridge"):
+def writeJavaCode(collection, db_name,write_path,parent_path="io.github.chigadio.javamongodbbridge"):
     os.makedirs(write_path, exist_ok=True)
-    catitalize_data = next(iter(collection_info))
+    catitalize_data = next(iter(collection))
+    class_name = snake_to_pascal(catitalize_data.capitalize())
     
-    with open(write_path + f"/{catitalize_data.capitalize()}CollectionData.java", mode="w", encoding="utf-8") as f:
-        for line in generate_user_collection_data_class(collection_info):
+    with open(write_path + f"/{class_name}CollectionData.java", mode="w", encoding="utf-8") as f:
+        for line in generate_user_collection_data_class(collection):
             f.write(line + '\n')
         
-    with open(write_path+ f"/{catitalize_data.capitalize()}Repository.java", mode="w", encoding="utf-8") as f:
+    with open(write_path+ f"/{class_name}Repository.java", mode="w", encoding="utf-8") as f:
         # インポート文（修正済み、CompletableFutureを追加）
-        f.write('import com.mongodb.client.MongoCollection;\n')
-        f.write('import com.mongodb.client.MongoDatabase;\n')
-        f.write('import com.mongodb.client.FindIterable;\n')
-        f.write('import com.mongodb.client.model.Filters;\n')
-        f.write('import com.mongodb.client.model.Updates;\n')
-        f.write('import com.mongodb.client.model.Indexes;\n')
-        f.write('import com.mongodb.client.model.IndexOptions;\n')
-        f.write('import com.mongodb.client.model.WriteModel;\n')
-        f.write('import com.mongodb.client.model.UpdateManyModel;\n')
-        f.write('import com.mongodb.client.model.DeleteManyModel;\n')
-        f.write('import com.mongodb.client.result.UpdateResult;\n')
-        f.write('import com.mongodb.client.result.DeleteResult;\n')
-        f.write('import com.mongodb.bulk.BulkWriteResult;\n')
-        f.write('import org.bson.Document;\n')
-        f.write('import org.bson.conversions.Bson;\n')
-        f.write('import java.util.ArrayList;\n')
-        f.write('import java.util.List;\n')
-        f.write('import java.util.Collections;\n')
-        f.write('import java.util.concurrent.CompletableFuture;\n')  # 追加
-        f.write(f'import {parent_path}.util.variable.DataBaseResultPair;')
-        f.write('\n')
-        
+        java_imports = [
+            "import com.mongodb.bulk.BulkWriteResult;",
+            "import com.mongodb.client.ClientSession;",
+            "import com.mongodb.client.FindIterable;",
+            "import com.mongodb.client.MongoCollection;",
+            "import com.mongodb.client.MongoDatabase;",
+            "import com.mongodb.client.model.*;",
+            "import com.mongodb.client.result.UpdateResult;",
+            "import org.bson.Document;",
+            "import org.bson.conversions.Bson;",
+            "import java.util.ArrayList;",
+            "import java.util.Collections;",
+            "import java.util.List;",
+            "import java.util.concurrent.CompletableFuture;"
+        ]
+
+        for line in java_imports:
+            f.write(line + "\n")
+    
         
         f.write('\n')
+        collection_details = next(iter(collection))
+        class_name = snake_to_pascal(collection_details.capitalize())
+        f.write(f'public class {class_name}CollectionDb ' + "{\n")
+        f.write(f'  public static final String collection_name = "{db_name}";\n')
+        f.write(f'  public static  List<{class_name}CleectionData> cache_data;\n')
+        
+        #キャッチ関数を作成
+        catch_string = []
+        catch_string.append(f"public static void MemoryCache{class_name}CollectionData(MongoDatabase db)" + "{")
+        catch_string.append(f"  MongoCollection<Document> collection = db.getCollection(collection_name);")
+        catch_string.append(f"  FindIterable<Document> results = collection.find();")
+        catch_string.append(f"  cache_data = new ArrayList<>();")
+        catch_string.append("  for (Document doc : results) {")
+        catch_string.append(f"      cache_data.add(new {class_name}CollectionData(doc));")   
+        catch_string.append("  }")  
+        catch_string.append("}")
+        for line in catch_string:
+            f.write("   " + line + "\n")
+        
         
         # インデックス作成クラスの生成
-        for line in generate_index_creation_code(collection_info):
+        for line in generate_index_creation_code(collection):
             f.write(line + '\n')
         
         f.write('\n')
         
         # バルク操作の生成（同期版）
-        for line in generate_bulk_operations(collection_info):
+        for line in generate_bulk_operations(collection):
             f.write("   " + line + '\n')
         
         f.write('\n')
         
         # バルク操作の生成（非同期版）
         f.write('// Asynchronous Bulk Operations\n')
-        for line in generate_bulk_operations_async(collection_info):
+        for line in generate_bulk_operations_async(collection):
             f.write("   " + line + '\n')
         
         f.write('\n')
         
         # SQLクエリでコード生成
-        for item in collection_info["users"]["queries"]:
+        for item in collection[db_name]["queries"]:
             sql = item["query"]
             method_name = item["method_name"]
             # 同期版（既存）
             f.write(f'// SQL: {sql}\n')
             f.write(f'// Generated Java MongoDB Code for method: {method_name} (Single Arguments)\n')
-            for line in parse_sql_to_mongodb_single(sql, method_name, collection_info, auto_index=True,is_transaction=True):
+            for line in parse_sql_to_mongodb_single(sql, method_name, collection, auto_index=True,is_transaction=False):
+
+                f.write("   " + line + '\n')
+            f.write('\n')            
+            for line in parse_sql_to_mongodb_single(sql, method_name, collection, auto_index=True,is_transaction=True):
 
                 f.write("   " + line + '\n')
             f.write('\n')
             f.write(f'// Generated Java MongoDB Code for method: {method_name}NoAutoIndex (Single Arguments)\n')
-            for line in parse_sql_to_mongodb_single(sql, f'{method_name}NoAutoIndex', collection_info, auto_index=False,is_transaction=True):
+            for line in parse_sql_to_mongodb_single(sql, f'{method_name}NoAutoIndex', collection, auto_index=False,is_transaction=False):
 #
                 f.write("   " + line + '\n')
             f.write('\n')
-            #f.write(f'// Generated Java MongoDB Code for method: {method_name}WithData (UsersCollectionData Argument)\n')
-            #for line in parse_sql_to_mongodb_user_collection_data(sql, method_name, collection_info, auto_index=True):
+            for line in parse_sql_to_mongodb_single(sql, f'{method_name}NoAutoIndex', collection, auto_index=False,is_transaction=True):
+#
+                f.write("   " + line + '\n')
+            f.write('\n')
+            f.write(f'// Generated Java MongoDB Code for method: {method_name}WithData (UsersCollectionData Argument)\n')
+            for line in parse_sql_to_mongodb_user_collection_data(sql, method_name, collection, auto_index=False):
 ##
-            #    f.write("   " + line + '\n')
-            #f.write('\n')
+                f.write("   " + line + '\n')
+            f.write('\n')
             #f.write(f'// Generated Java MongoDB Code for method: {method_name}NoAutoIndexWithData (UsersCollectionData Argument)\n')
             #for line in parse_sql_to_mongodb_user_collection_data(sql, f'{method_name}NoAutoIndex', collection_info, auto_index=False):
             #    f.write("   " + line + '\n')
@@ -3810,16 +4124,16 @@ def writeJavaCode(collection, write_path,parent_path="io.github.chigadio.javamon
 ##
             #    f.write("   " + line + '\n')
             #f.write('\n')
-            #f.write(f'// Generated Java MongoDB Code for method: {method_name}AsyncWithData (UsersCollectionData Argument, Async)\n')
-            #for line in parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection_info, auto_index=True):
+            f.write(f'// Generated Java MongoDB Code for method: {method_name}AsyncWithData (UsersCollectionData Argument, Async)\n')
+            for line in parse_sql_to_mongodb_user_collection_data_async(sql, method_name, collection, auto_index=True,is_transaction=True):
 ##
-            #    f.write("   " + line + '\n')
-            #f.write('\n')
-            #f.write(f'// Generated Java MongoDB Code for method: {method_name}NoAutoIndexAsyncWithData (UsersCollectionData Argument, Async)\n')
-            #for line in parse_sql_to_mongodb_user_collection_data_async(sql, f'{method_name}NoAutoIndex', collection_info, auto_index=False):
+                f.write("   " + line + '\n')
+            f.write('\n')
+            f.write(f'// Generated Java MongoDB Code for method: {method_name}NoAutoIndexAsyncWithData (UsersCollectionData Argument, Async)\n')
+            for line in parse_sql_to_mongodb_user_collection_data_async(sql, f'{method_name}', collection, auto_index=True,is_transaction=False):
 ##
-            #    f.write("   " + line + '\n')
-            #f.write('\n')
+                f.write("   " + line + '\n')
+            f.write('\n')
             #f.write(f'// Generated Java MongoDB Code for method: {method_name}AsyncWithDataList (List<UsersCollectionData> Argument, Async)\n')
             #for line in parse_sql_to_mongodb_list_user_collection_data_async(sql, method_name, collection_info, auto_index=True):
 ##
@@ -3830,6 +4144,8 @@ def writeJavaCode(collection, write_path,parent_path="io.github.chigadio.javamon
             #    f.write("   " + line + '\n')
             #f.write('\n')
             
+        f.write("}")
+            
 
-writeJavaCode(collection=collection_info,write_path="./Java/Generate/Users")
-
+writeJavaCode(collection=collection_info_money_user,db_name="user_game_player",write_path="./Java/Generate/Users")
+writeJavaCode(collection=collection_info_job_type,db_name="job_type",write_path="./Java/Generate/Users")
